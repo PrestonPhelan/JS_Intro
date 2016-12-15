@@ -91,8 +91,12 @@ function bubbleSort(array) {
 }
 
 function substrings(string) {
-  newArray = [];
+  let newArray = [];
   for (let i = 0; i < string.length; i++) {
-    for (let j = i + i; )
+    for (let j = i + 1; j <= string.length; j++) {
+      newArray.push(string.slice(i, j));
+    }
   }
+
+  return newArray;
 }
