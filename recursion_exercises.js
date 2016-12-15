@@ -80,23 +80,47 @@ let bSearch = function(array, target) {
   }
 };
 
-let makeChange = function(amount, array) {
+let makeChange3 = function(amount, array) {
   let result = 0;
-  if (array.length === 1) {
+  if (amount === 0) {
+    return [];
+  } else if (array.length === 1) {
     return Array(amount/array[0]).fill(array[0]);
   } else {
     let bestChange = null;
     for (let i = 0; i < array.length; i++) {
-      if (amount > array[i]) {
-        result = [array[i]].concat(makeChange(amount - array[i], array.slice(i,array.length)));
+      if (amount >= array[i]) {
+        result = [array[i]].concat(makeChange3(amount - array[i], array.slice(i,array.length)));
       } else {
-        result = makeChange(amount, array.slice(2, array.length));
+        result = makeChange3(amount, array.slice(i+1, array.length));
       }
       if (bestChange === null ) {
         bestChange = result;
       } else if (result.length < bestChange.length) {
         bestChange = result;
       }
+    }
+    return bestChange;
+  }
+};
+
+
+let makeChange4 = function(amount, array) {
+  let result = [];
+  if (amount === 0) {
+    return [];
+  } else {
+    if (amount < array[0]) {
+      return makeChange4(amount, array.slice(1, array.length));
+    } else {
+      let bestChange = [];
+      for (let i = 0; i < array.length; i++) {
+        result = [array[i]].concat(makeChange4(amount - array[i], array.slice(i,array.length)));
+        if (bestChange === [] || bestChange.length > result.length ) {
+          bestChange = result;
+        }
+      }
+      return bestChange;
     }
   }
 };
